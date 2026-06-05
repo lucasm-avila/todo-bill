@@ -10,9 +10,8 @@
     "build": "npm run db:generate && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "format": "biome format",
-    "lint": "biome lint",
-    "check": "biome check",
+    "format": "npx prettier --write .",
+    "check": "npx prettier --check .",
     "post-cta-init": "npx -y create-db@latest --user-agent tanstack/tsrouter",
     "db:generate": "dotenv -e .env.local -- prisma generate",
     "db:push": "dotenv -e .env.local -- prisma db push",
@@ -37,10 +36,10 @@
     "prisma": "^7.4.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-vite": "latest",
     "@testing-library/dom": "^10.4.1",
@@ -51,6 +50,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "dotenv-cli": "^11.0.0",
     "jsdom": "^28.1.0",
+    "prettier": "3.8.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vite": "^8.0.0",

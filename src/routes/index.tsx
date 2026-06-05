@@ -1,87 +1,178 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createTodo, getTodos } from '@/server/todo.functions'
+import { useQuery } from '@tanstack/react-query'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({
+  component: App,
+})
 
 function App() {
+  const router = useRouter()
+
+  const {
+    data: todos,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['todos'],
+    queryFn: () => getTodos(),
+  })
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const title = formData.get('title') as string
+
+    if (!title) return
+
+    try {
+      await createTodo({ data: { title } })
+      router.invalidate()
+      ;(e.target as HTMLFormElement).reset()
+    } catch (error) {
+      console.error('Failed to create todo:', error)
+    }
+  }
+
+  // UI Rendering States
+  if (isLoading) return <div>Loading todos from server...</div>
+  if (error) return <div>Error loading todos!</div>
+
   return (
-    <main className="page-wrap px-4 pb-8 pt-14">
-      <section className="island-shell rise-in relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14">
-        <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />
-        <p className="island-kicker mb-3">TanStack Start Base Template</p>
-        <h1 className="display-title mb-5 max-w-3xl text-4xl leading-[1.02] font-bold tracking-tight text-[var(--sea-ink)] sm:text-6xl">
-          Start simple, ship quickly.
-        </h1>
-        <p className="mb-8 max-w-2xl text-base text-[var(--sea-ink-soft)] sm:text-lg">
-          This base starter intentionally keeps things light: two routes, clean
-          structure, and the essentials you need to build from scratch.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="/about"
-            className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-5 py-2.5 text-sm font-semibold text-[var(--lagoon-deep)] no-underline transition hover:-translate-y-0.5 hover:bg-[rgba(79,184,178,0.24)]"
-          >
-            About This Starter
-          </a>
-          <a
-            href="https://tanstack.com/router"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-5 py-2.5 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:-translate-y-0.5 hover:border-[rgba(23,58,64,0.35)]"
-          >
-            Router Guide
-          </a>
+    <div
+      className="flex items-center justify-center min-h-screen p-4 text-white"
+      style={{
+        background:
+          'linear-gradient(135deg, #0c1a2b 0%, #1a2332 50%, #16202e 100%)',
+      }}
+    >
+      <div
+        className="w-full max-w-2xl p-8 rounded-xl shadow-2xl border border-white/10"
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(22, 32, 46, 0.95) 0%, rgba(12, 26, 43, 0.95) 100%)',
+          backdropFilter: 'blur(10px)',
+        }}
+      >
+        <div
+          className="flex items-center justify-center gap-4 mb-8 p-4 rounded-lg"
+          style={{
+            background:
+              'linear-gradient(90deg, rgba(93, 103, 227, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)',
+            border: '1px solid rgba(93, 103, 227, 0.2)',
+          }}
+        >
+          <div className="relative group">
+            <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-lg blur-lg opacity-60 group-hover:opacity-100 transition duration-500"></div>
+            <div className="relative bg-gradient-to-br from-indigo-600 to-purple-600 p-3 rounded-lg">
+              <img
+                src="/prisma.svg"
+                alt="Prisma Logo"
+                className="w-8 h-8 transform group-hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-300 via-purple-300 to-indigo-300 text-transparent bg-clip-text">
+            Prisma Database Demo
+          </h1>
         </div>
-      </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          [
-            'Type-Safe Routing',
-            'Routes and links stay in sync across every page.',
-          ],
-          [
-            'Server Functions',
-            'Call server code from your UI without creating API boilerplate.',
-          ],
-          [
-            'Streaming by Default',
-            'Ship progressively rendered responses for faster experiences.',
-          ],
-          [
-            'Tailwind Native',
-            'Design quickly with utility-first styling and reusable tokens.',
-          ],
-        ].map(([title, desc], index) => (
-          <article
-            key={title}
-            className="island-shell feature-card rise-in rounded-2xl p-5"
-            style={{ animationDelay: `${index * 90 + 80}ms` }}
-          >
-            <h2 className="mb-2 text-base font-semibold text-[var(--sea-ink)]">
-              {title}
-            </h2>
-            <p className="m-0 text-sm text-[var(--sea-ink-soft)]">{desc}</p>
-          </article>
-        ))}
-      </section>
+        <h2 className="text-2xl font-bold mb-4 text-indigo-200">Todos</h2>
 
-      <section className="island-shell mt-8 rounded-2xl p-6">
-        <p className="island-kicker mb-2">Quick Start</p>
-        <ul className="m-0 list-disc space-y-2 pl-5 text-sm text-[var(--sea-ink-soft)]">
-          <li>
-            Edit <code>src/routes/index.tsx</code> to customize the home page.
-          </li>
-          <li>
-            Update <code>src/components/Header.tsx</code> and{' '}
-            <code>src/components/Footer.tsx</code> for brand links.
-          </li>
-          <li>
-            Add routes in <code>src/routes</code> and tweak visual tokens in{' '}
-            <code>src/styles.css</code>.
-          </li>
+        <ul className="space-y-3 mb-6">
+          {todos!.map((todo) => (
+            <li
+              key={todo.id}
+              className="rounded-lg p-4 shadow-md border transition-all hover:scale-[1.02] cursor-pointer group"
+              style={{
+                background:
+                  'linear-gradient(135deg, rgba(93, 103, 227, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)',
+                borderColor: 'rgba(93, 103, 227, 0.3)',
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-medium text-white group-hover:text-indigo-200 transition-colors">
+                  {todo.title}
+                </span>
+                <span className="text-xs text-indigo-300/70">#{todo.id}</span>
+              </div>
+            </li>
+          ))}
+          {todos!.length === 0 && (
+            <li className="text-center py-8 text-indigo-300/70">
+              No todos yet. Create one below!
+            </li>
+          )}
         </ul>
-      </section>
-    </main>
+
+        <form onSubmit={handleSubmit} className="flex gap-2">
+          <input
+            type="text"
+            name="title"
+            placeholder="Add a new todo..."
+            className="flex-1 px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all text-white placeholder-indigo-300/50"
+            style={{
+              background: 'rgba(93, 103, 227, 0.1)',
+              borderColor: 'rgba(93, 103, 227, 0.3)',
+            }}
+          />
+          <button
+            type="submit"
+            className="px-6 py-3 font-semibold rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 active:scale-95 whitespace-nowrap"
+            style={{
+              background: 'linear-gradient(135deg, #5d67e3 0%, #8b5cf6 100%)',
+              color: 'white',
+            }}
+          >
+            Add Todo
+          </button>
+        </form>
+
+        <div
+          className="mt-8 p-6 rounded-lg border"
+          style={{
+            background: 'rgba(93, 103, 227, 0.05)',
+            borderColor: 'rgba(93, 103, 227, 0.2)',
+          }}
+        >
+          <h3 className="text-lg font-semibold mb-2 text-indigo-200">
+            Powered by Prisma ORM
+          </h3>
+          <p className="text-sm text-indigo-300/80 mb-4">
+            Next-generation ORM for Node.js & TypeScript with PostgreSQL
+          </p>
+          <div className="space-y-2 text-sm">
+            <p className="text-indigo-200 font-medium">Setup Instructions:</p>
+            <ol className="list-decimal list-inside space-y-2 text-indigo-300/80">
+              <li>
+                Configure your{' '}
+                <code className="px-2 py-1 rounded bg-black/30 text-purple-300">
+                  DATABASE_URL
+                </code>{' '}
+                in .env.local
+              </li>
+              <li>
+                Run:{' '}
+                <code className="px-2 py-1 rounded bg-black/30 text-purple-300">
+                  npx -y prisma generate
+                </code>
+              </li>
+              <li>
+                Run:{' '}
+                <code className="px-2 py-1 rounded bg-black/30 text-purple-300">
+                  npx -y prisma db push
+                </code>
+              </li>
+              <li>
+                Optional:{' '}
+                <code className="px-2 py-1 rounded bg-black/30 text-purple-300">
+                  npx -y prisma studio
+                </code>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

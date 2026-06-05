@@ -1,10 +1,10 @@
+import { TanStackDevtools } from '@tanstack/react-devtools'
 import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 
@@ -31,7 +31,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Todo Bill',
       },
     ],
     links: [

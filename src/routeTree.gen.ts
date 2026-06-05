@@ -11,8 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoPrismaRouteImport } from './routes/demo/prisma'
+import { Route as ApiHelloRouteImport } from './routes/api/hello'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -24,49 +23,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoPrismaRoute = DemoPrismaRouteImport.update({
-  id: '/demo/prisma',
-  path: '/demo/prisma',
+const ApiHelloRoute = ApiHelloRouteImport.update({
+  id: '/api/hello',
+  path: '/api/hello',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/demo/prisma': typeof DemoPrismaRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/api/hello': typeof ApiHelloRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/demo/prisma': typeof DemoPrismaRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/api/hello': typeof ApiHelloRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/demo/prisma': typeof DemoPrismaRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/api/hello': typeof ApiHelloRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/demo/prisma' | '/demo/tanstack-query'
+  fullPaths: '/' | '/about' | '/api/hello'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/demo/prisma' | '/demo/tanstack-query'
-  id: '__root__' | '/' | '/about' | '/demo/prisma' | '/demo/tanstack-query'
+  to: '/' | '/about' | '/api/hello'
+  id: '__root__' | '/' | '/about' | '/api/hello'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  DemoPrismaRoute: typeof DemoPrismaRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  ApiHelloRoute: typeof ApiHelloRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,18 +75,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/prisma': {
-      id: '/demo/prisma'
-      path: '/demo/prisma'
-      fullPath: '/demo/prisma'
-      preLoaderRoute: typeof DemoPrismaRouteImport
+    '/api/hello': {
+      id: '/api/hello'
+      path: '/api/hello'
+      fullPath: '/api/hello'
+      preLoaderRoute: typeof ApiHelloRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -105,8 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  DemoPrismaRoute: DemoPrismaRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  ApiHelloRoute: ApiHelloRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
