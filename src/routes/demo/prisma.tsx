@@ -1,6 +1,6 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { prisma } from '#/db'
+import { prisma } from '../../db'
 
 const getTodos = createServerFn({
   method: 'GET',
@@ -121,7 +121,6 @@ function DemoPrisma() {
             style={{
               background: 'rgba(93, 103, 227, 0.1)',
               borderColor: 'rgba(93, 103, 227, 0.3)',
-              focusRing: 'rgba(93, 103, 227, 0.5)',
             }}
           />
           <button

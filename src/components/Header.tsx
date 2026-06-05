@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import BetterAuthHeader from '../integrations/better-auth/header-user.tsx'
 import ThemeToggle from './ThemeToggle'
 
 export default function Header() {
@@ -56,12 +55,6 @@ export default function Header() {
               >
                 TanStack Query
               </a>
-              <a
-                href="/demo/better-auth"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
-              >
-                Better Auth
-              </a>
             </div>
           </details>
         </div>
@@ -95,8 +88,6 @@ export default function Header() {
               />
             </svg>
           </a>
-          <BetterAuthHeader />
-
           <ThemeToggle />
         </div>
       </nav>
