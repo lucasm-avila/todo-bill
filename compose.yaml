@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres_todo_bill
+    restart: always
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres_todo_bill
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_todo_bill:/var/lib/postgresql/data
+
+volumes:
+  postgres_todo_bill:
