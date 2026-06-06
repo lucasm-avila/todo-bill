@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/api/')({
   server: {
     handlers: {
-      GET: async ({ request }) => {
+      GET: async ({}) => {
         return new Response(
           JSON.stringify({ message: 'TODO-BILL API is working!' }),
           {

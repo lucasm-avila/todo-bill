@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "./generated"
@@ -11,6 +10,8 @@ datasource db {
 model Todo {
   id        Int      @id @default(autoincrement())
   title     String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
@@ -26,6 +27,7 @@ model User {
   phoneNumber   String?
   sessions      Session[]
   accounts      Account[]
+  todos         Todo[]
 
   @@unique([email])
   @@map("user")

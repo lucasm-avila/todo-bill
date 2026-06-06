@@ -9,6 +9,7 @@ const getTodos = createServerFn({
   .middleware([authFnMiddleware])
   .handler(async ({ context }) => {
     return await prisma.todo.findMany({
+      where: { userId: context.session.userId },
       orderBy: { createdAt: 'desc' },
     })
   })
@@ -23,7 +24,10 @@ const createTodo = createServerFn({
   .middleware([authFnMiddleware])
   .handler(async ({ data, context }) => {
     return await prisma.todo.create({
-      data,
+      data: {
+        ...data,
+        userId: context.session.userId,
+      },
     })
   })
 

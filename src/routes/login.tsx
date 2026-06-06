@@ -34,12 +34,6 @@ function LoginPage() {
     }
   }
 
-  const handleGitHubSignIn = async () => {
-    await authClient.signIn.social({
-      provider: 'github',
-      callbackURL: '/dashboard',
-    })
-  }
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md rounded-lg border p-8">
