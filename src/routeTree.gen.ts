@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ApiIndexRouteImport } from './routes/api/index'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
+import { Route as ApiCheckAuthRouteImport } from './routes/api/check-auth'
 import { Route as ProtectedAboutRouteImport } from './routes/_protected/about'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
@@ -41,6 +42,11 @@ const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ApiCheckAuthRoute = ApiCheckAuthRouteImport.update({
+  id: '/api/check-auth',
+  path: '/api/check-auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProtectedAboutRoute = ProtectedAboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signUp': typeof SignUpRoute
   '/about': typeof ProtectedAboutRoute
+  '/api/check-auth': typeof ApiCheckAuthRoute
   '/api/': typeof ApiIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -64,6 +71,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signUp': typeof SignUpRoute
   '/about': typeof ProtectedAboutRoute
+  '/api/check-auth': typeof ApiCheckAuthRoute
   '/': typeof ProtectedIndexRoute
   '/api': typeof ApiIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -74,21 +82,37 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signUp': typeof SignUpRoute
   '/_protected/about': typeof ProtectedAboutRoute
+  '/api/check-auth': typeof ApiCheckAuthRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/api/': typeof ApiIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signUp' | '/about' | '/api/' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/signUp'
+    | '/about'
+    | '/api/check-auth'
+    | '/api/'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signUp' | '/about' | '/' | '/api' | '/api/auth/$'
+  to:
+    | '/login'
+    | '/signUp'
+    | '/about'
+    | '/api/check-auth'
+    | '/'
+    | '/api'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/_protected'
     | '/login'
     | '/signUp'
     | '/_protected/about'
+    | '/api/check-auth'
     | '/_protected/'
     | '/api/'
     | '/api/auth/$'
@@ -98,6 +122,7 @@ export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignUpRoute: typeof SignUpRoute
+  ApiCheckAuthRoute: typeof ApiCheckAuthRoute
   ApiIndexRoute: typeof ApiIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -139,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/api/check-auth': {
+      id: '/api/check-auth'
+      path: '/api/check-auth'
+      fullPath: '/api/check-auth'
+      preLoaderRoute: typeof ApiCheckAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_protected/about': {
       id: '/_protected/about'
       path: '/about'
@@ -174,6 +206,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
   LoginRoute: LoginRoute,
   SignUpRoute: SignUpRoute,
+  ApiCheckAuthRoute: ApiCheckAuthRoute,
   ApiIndexRoute: ApiIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

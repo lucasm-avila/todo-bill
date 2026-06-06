@@ -3,12 +3,14 @@ export const Route = createFileRoute('/api/')({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        console.log('Received request for /hello:', request)
-        return new Response(JSON.stringify({ message: 'Hello, World!' }), {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        return new Response(
+          JSON.stringify({ message: 'TODO-BILL API is working!' }),
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
       },
     },
   },
