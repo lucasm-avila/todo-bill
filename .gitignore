@@ -14,5 +14,4 @@ todos.json
 
 
 # PRISMA
-prisma/migrations
 prisma/generated
