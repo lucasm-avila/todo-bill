@@ -1,11 +1,13 @@
 import { prisma } from '@/lib/db'
 import { createServerFn } from '@tanstack/react-start'
 import z from 'zod'
+import { ensureSession } from './auth.functions'
 
 const getTodos = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  console.log('Fetching todos from the database...')
+  const session = await ensureSession()
+  console.log('Authenticated user:', session.user)
   return await prisma.todo.findMany({
     orderBy: { createdAt: 'desc' },
   })
@@ -19,6 +21,8 @@ const createTodo = createServerFn({
 })
   .inputValidator(createTodoSchema)
   .handler(async ({ data }) => {
+    const session = await ensureSession()
+    console.log('Authenticated user:', session.user)
     return await prisma.todo.create({
       data,
     })

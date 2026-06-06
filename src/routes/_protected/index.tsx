@@ -2,7 +2,7 @@ import { createTodo, getTodos } from '@/server/todo.functions'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_protected/')({
   component: App,
 })
 

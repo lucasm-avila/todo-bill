@@ -13,11 +13,12 @@
     "format": "npx prettier --write .",
     "check": "npx prettier --check .",
     "post-cta-init": "npx -y create-db@latest --user-agent tanstack/tsrouter",
-    "db:generate": "dotenv -e .env.local -- prisma generate",
-    "db:push": "dotenv -e .env.local -- prisma db push",
-    "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
-    "db:studio": "dotenv -e .env.local -- prisma studio",
-    "db:seed": "dotenv -e .env.local -- prisma db seed"
+    "db:generate": "npm run auth:generate && npx prisma generate",
+    "db:push": "npx prisma db push",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio",
+    "db:seed": "npx prisma db seed",
+    "auth:generate": "npx auth@latest generate --config src/lib/auth.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.2",
@@ -31,6 +32,7 @@
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
     "@tanstack/router-plugin": "^1.132.0",
+    "better-auth": "^1.6.14",
     "lucide-react": "^0.545.0",
     "nitro": "npm:nitro-nightly@latest",
     "prisma": "^7.4.2",
@@ -38,6 +40,9 @@
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.18",
     "zod": "^4.4.3"
+  },
+  "overrides": {
+    "kysely": "^0.28.17"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
