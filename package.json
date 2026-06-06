@@ -15,10 +15,10 @@
     "post-cta-init": "npx -y create-db@latest --user-agent tanstack/tsrouter",
     "db:generate": "npx prisma generate",
     "db:push": "npx prisma db push",
-    "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
     "db:seed": "npx prisma db seed",
-    "auth:generate": "npx auth@latest generate --config src/lib/auth.ts"
+    "auth:generate": "npx auth@latest generate --config src/lib/auth.ts && npm run db:migrate",
+    "db:migrate": "npx prisma migrate dev"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.2",
